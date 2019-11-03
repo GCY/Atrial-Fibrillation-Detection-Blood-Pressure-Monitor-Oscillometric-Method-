@@ -33,3 +33,5 @@ Atrial Fibrillation Detection Blood Pressure Monitor (Oscillometric Method)
 
 ## Reference
 Kabutoya, T., Imai, Y., Hoshide, S., & Kario, K. (2017). Diagnostic accuracy of a new algorithm to detect atrial fibrillation in a home blood pressure monitor. The Journal of Clinical Hypertension, 19(11), 1143-1147.
+
+C++ Program for Polynomial Fit (Least Squares) : https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
