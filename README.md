@@ -1,5 +1,5 @@
 # Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-
-This project is electronic blood pressure monitor platform with Oscillometric method, include SBP and DBP estimate algorithm, Atrial Fibrillation detection algorithm, calibration curve.
+This project is electronic blood pressure monitor platform with Oscillometric method, include SBP and DBP estimate algorithm, Atrial Fibrillation detection algorithm, calibration curve, GUI tool.
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/v2%20pcb.jpg?raw=true)  
 
