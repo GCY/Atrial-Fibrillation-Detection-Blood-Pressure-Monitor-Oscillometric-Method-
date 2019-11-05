@@ -3,6 +3,13 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/v2%20pcb.jpg?raw=true)  
 
+## Features
+- [x] Blood Pressure Measurment - Systolic, Diastolic, Mean
+- [x] Atrial Fibrillation Detection - Irregular Pulse eak , Irregular Heart Beats
+- [x] GUI Toos - Algorithm Finetune
+- [x] ADC Clibration to Mercury Manometer Pressure - Polynomial Curve Fit
+- [x] RAW Data Record
+
 ## Hardware
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/assembly%20part%201.jpg?raw=true) 
 
