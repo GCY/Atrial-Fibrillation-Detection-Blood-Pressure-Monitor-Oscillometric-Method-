@@ -5,7 +5,7 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ## Features
 - [x] Blood Pressure Measurment - Systolic, Diastolic, Mean
-- [x] Atrial Fibrillation Detection - Irregular Pulse eak , Irregular Heart Beats
+- [x] Atrial Fibrillation Detection - Irregular Pulse Peak , Irregular Heart Beats
 - [x] GUI Toos - Algorithm Finetune
 - [x] ADC Clibration to Mercury Manometer Pressure - Polynomial Curve Fit
 - [x] RAW Data Record
