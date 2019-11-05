@@ -39,8 +39,6 @@ This project is electronic blood pressure monitor platform with Oscillometric me
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type2.png?raw=true)  
 
-![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/ac-peak-crop.png?raw=true)  
-
 ## Calibration ADC-DC to Mercury Manometer
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
