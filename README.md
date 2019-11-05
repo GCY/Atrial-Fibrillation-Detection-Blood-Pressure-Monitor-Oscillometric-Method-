@@ -29,8 +29,18 @@ This project is electronic blood pressure monitor platform with Oscillometric me
 
 ## Software
 
+### Dependence
+- Win10
+  - wxWidgets 3.1.2
+  - VS2017 - MSVC 10.0.17763-SDK
+- Mac High Sierra
+  - wxWidgets 3.x
+  - g++
+
+### Mac High Sierra GUI
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/MAC%20OS%20X.png?raw=true)  
 
+### Win10 GUI
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/WIN10.PNG?raw=true)  
 
 ## Oscillometric Method
