@@ -16,7 +16,7 @@ This project is electronic blood pressure monitor research platform with Oscillo
   - TB6612FNG (for PUMP and VALVE PID control)
   - MPS-3117-006GC A2/A3(MEMS Wheatstone Bridge)
 - Mechatronic
-  - 3V DC Air Pump Motor(-JQB032-3A- or DQB030-A-3V)
+  - 3V DC Air Pump Motor(JQB032-3A or DQB030-A-3V)
   - 3V DC Electric Solenoid Valve(JQF1-3C1/DC3V Mini 10mm*15mm)
 - Cuff and Tubing
   - 2mm*4mm Silicone Rubber Tubing x 2(20cm~30cm, for wrist cuff input and output)
