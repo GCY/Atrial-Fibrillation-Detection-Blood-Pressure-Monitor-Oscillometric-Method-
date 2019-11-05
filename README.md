@@ -56,7 +56,7 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type2.png?raw=true)  
 
-## Calibration ADC-DC to Mercury Manometer
+## Calibration ADC-DC to Mercury Manometer Pressure
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
 
