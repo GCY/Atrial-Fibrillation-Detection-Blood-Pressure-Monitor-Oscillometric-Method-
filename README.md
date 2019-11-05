@@ -31,6 +31,12 @@ This project is electronic blood pressure monitor research platform with Oscillo
   - 2mm*3mm T Type Plastic Barbed Connector
   - 2mm*3mm Straight Plastic Barbed Connector x 3
   - Wrist Air Cuff Input/Output(2 pinhole 2mm~3mm)
+  
+### Configure for Motor Electric Drives With Independent Power Supply - Battery2(U$19)
+- J1, J2 pin1 connect to pin2 - battery2 charge
+- J1, J2 pin2 connect to pin3 - motor drive with independent power supply
+- JP1 pin1 connect to pin2 - motor drive with VCC
+- JP1 pin2 connect to pin3 - motor drive with independent power supply
 
 ## Firmware
 
