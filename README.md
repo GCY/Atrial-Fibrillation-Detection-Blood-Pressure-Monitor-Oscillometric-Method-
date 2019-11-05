@@ -10,6 +10,12 @@ This project is electronic blood pressure monitor platform with Oscillometric me
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/t-type%20and%20direct%20connector.jpg?raw=true) 
 
+### Key Component List
+
+- Electronics
+- Mechatronic
+- Cuff and Tubing
+
 ## Firmware
 
 ## Software
