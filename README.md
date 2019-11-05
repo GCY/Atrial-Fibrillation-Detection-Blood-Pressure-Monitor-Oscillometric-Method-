@@ -13,8 +13,16 @@ This project is electronic blood pressure monitor platform with Oscillometric me
 ### Key Component List
 
 - Electronics
+  - TB6612FNG
+  - MPS-3117-006GC A2/A3
 - Mechatronic
+  - 3V DC Air Pump Motor(JQB032-3A or DQB030-A-3V)
+  - 3V DC Electric Solenoid Valve(JQF1-3C1/DC3V Mini 10mm*15mm)
 - Cuff and Tubing
+  - 2mm*4mm Silicone Rubber Tubing x 2(20cm~30cm)
+  - 2mm*3mm T Type Plastic Barbed Connector
+  - 2mm*3mm Straight Plastic Barbed Connector x 3
+  - Wrist Air Cuff Input/Output(2 pinhole 2mm~3mm)
 
 ## Firmware
 
