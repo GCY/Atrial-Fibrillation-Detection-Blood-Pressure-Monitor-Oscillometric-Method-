@@ -41,8 +41,9 @@ This project is electronic blood pressure monitor research platform with Oscillo
 ## Firmware
 
 ### Build and Burn The .elf
-- make
-- load main.elf
+- 1.cd src/BPM
+- 2.make
+- 3.load main.elf
 
 ### Key Parameters
 
@@ -54,6 +55,13 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ## Software
 
+### Build
+- Win10
+  - 1.Open BPM.sln
+  - 2.Rebuild
+- Mac High Sierra
+  - 1.make
+  
 ### Dependence
 - Win10
   - wxWidgets 3.1.2
@@ -67,6 +75,12 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ### Win10 GUI
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/WIN10.PNG?raw=true)  
+
+### Operation Manual
+- "Ad/Am" and "As/Am" text box is Diastolic and Systolic BP Point of AC signal amplitude.
+- "Measurment" button is BP measurment after VCP connected.
+- "USB Mode" button is switch from "USB Mode"(Measurment) to "Calibration Mode", and vice versa.
+- "Pressurize" and "Leak" button for control mercury manometer high and low in calibration mode.
 
 ## Oscillometric Method
 
