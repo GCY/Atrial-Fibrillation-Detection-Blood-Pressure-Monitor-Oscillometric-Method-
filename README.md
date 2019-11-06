@@ -40,6 +40,18 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ## Firmware
 
+### Build and Burn The .elf
+- make
+- load main.elf
+
+### Key Parameters
+
+### Operation Flowchart
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/operation%20flowchart.png?raw=true)  
+
+### DC/AC Signal Process Flowchart
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/signal%20process%20flowchart.png?raw=true)  
+
 ## Software
 
 ### Dependence
