@@ -83,9 +83,12 @@ This project is electronic blood pressure monitor research platform with Oscillo
 - "Pressurize" and "Leak" button for control mercury manometer high and low in calibration mode.
 
 ## Oscillometric Method
+The two chart below show AC signal types, all of types are correct.
 
+### Type1 AC Signal
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type1.png?raw=true)  
 
+### Type2 AC Signal
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type2.png?raw=true)  
 
 ## Calibration ADC-DC to Mercury Manometer Pressure
