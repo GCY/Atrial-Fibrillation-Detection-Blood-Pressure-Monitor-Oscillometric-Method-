@@ -48,8 +48,28 @@ This project is electronic blood pressure monitor research platform with Oscillo
 ### Key Parameters
 
 <pre><code>
+const uint16_t PWM_Freq = 1000;
+
+const uint32_t PID_PWM_MIN = 1;
+const uint32_t PID_PWM_MAX = 100;
+const uint32_t TIMER_PWM_MIN = 100000;
+const uint32_t TIMER_PWM_MAX = 1000000;
+const uint32_t TIMER_PWM_33 = 330000;
+const uint32_t TIMER_PWM_40 = 400000;
+</code></pre>
+
+<pre><code>
 float as_am_value = 0.65f;
 float ad_am_value = 0.7f;
+</code></pre>
+
+<pre><code>
+float a[3] = {-0.0000012119f,0.1262915457f,-1.0620516546f};
+</code></pre>
+
+<pre><code>
+const float IPP_Ratio = 0.2f;
+const float IHB_Ratio = 0.2f;
 </code></pre>
 
 ### Operation Flowchart
