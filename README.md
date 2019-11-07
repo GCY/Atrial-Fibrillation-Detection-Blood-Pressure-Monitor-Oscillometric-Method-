@@ -47,6 +47,11 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ### Key Parameters
 
+<pre><code>
+float as_am_value = 0.65f;
+float ad_am_value = 0.7f;
+</code></pre>
+
 ### Operation Flowchart
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/operation%20flowchart.png?raw=true)  
 
