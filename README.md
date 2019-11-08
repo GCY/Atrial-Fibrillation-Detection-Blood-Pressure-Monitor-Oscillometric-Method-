@@ -97,6 +97,9 @@ const float IHB_Ratio = 0.2f;
 ### DC/AC Signal Process Flowchart
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/signal%20process%20flowchart.png?raw=true)  
 
+### Measurment Flowchart
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/measurment%20flowchart.png?raw=true) 
+
 ## Software
 
 ### Build
