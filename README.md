@@ -72,7 +72,7 @@ const uint32_t TIMER_PWM_33 = 330000;
 const uint32_t TIMER_PWM_40 = 400000;
 </code></pre>
 
-AC amplitude point of Systolic and Diastolic BP.</br>
+AC signal amplitude point of Systolic and Diastolic BP.</br>
 <pre><code>
 float as_am_value = 0.65f;
 float ad_am_value = 0.7f;
