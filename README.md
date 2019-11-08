@@ -40,8 +40,72 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ## Firmware
 
+### Build and Burn The .elf
+- 1.cd src/BPM
+- 2.make
+- 3.load main.elf
+
+### Key Parameters
+
+PWM_Freq is DC Motor PWM frequency.</br>
+TIM_Prescaler = (168M/2)/1M = 84M</br>
+TIM_Period = TIMER_PWM_MAX/PWM_Freq = 1000</br>
+
+TIM = 84M / TIM_Prescaler = 1M</br>
+TIM = 1M / TIM_ClockDivision = 1M</br>
+1M / (TIM_Period + 1) = 1000Hz (1ms)</br>
+<pre><code>
+const uint16_t PWM_Freq = 1000;
+</code></pre>
+
+ARR = TIMER_PWM_MAX;</br>
+CCR = 0 to TIMER_PWM_MAX = 0 to 100% PWM.</br>
+In this case, PID PWM step 1 to 100 mapped to 100000 to 1000000.</br>
+TIMER_PWM_33 and TIMER_PWM_40 is 33% and 40% PWM for calibration hand control.</br>
+<pre><code>
+const uint32_t PID_PWM_MIN = 1;
+const uint32_t PID_PWM_MAX = 100;
+const uint32_t TIMER_PWM_MIN = 100000;
+const uint32_t TIMER_PWM_MAX; = 1000000;
+const uint32_t TIMER_PWM_33 = 330000;
+const uint32_t TIMER_PWM_40 = 400000;
+</code></pre>
+
+AC signal amplitude point of Systolic and Diastolic BP.</br>
+<pre><code>
+float as_am_value = 0.65f;
+float ad_am_value = 0.7f;
+</code></pre>
+
+Polynomial curve fitting is generated from 『Calibration ADC-DC to Mercury Manometer Pressure』, you'll need to create 『curve.csv』and execute PC-GUI software main.app or BPM.exe in the same folder, it will output the『equation.txt』.</br>
+e.g. degree = 2, equation.txt format is : (-1.0620516546)x^0+(0.1262915457)x^1+(-0.0000012119)x^2 </br>
+<pre><code>
+float a[3] = {-0.0000012119f,0.1262915457f,-1.0620516546f};
+</code></pre>
+
+If pulse_value_N / total_pulse_value_mean > IPP_Ratio, pulse_N is irregular pulse peak, and IPP ratio range 15%~25%.</br>
+If IPP number / total_pulse_number > IHB_Ratio, this measurement is irregular heart beat.</br>
+If two or more IHB of the three BP measurements, AF detected.<br>
+<pre><code>
+const float IPP_Ratio = 0.2f;
+const float IHB_Ratio = 0.2f;
+</code></pre>
+
+### Operation Flowchart
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/operation%20flowchart.png?raw=true)  
+
+### DC/AC Signal Process Flowchart
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/signal%20process%20flowchart.png?raw=true)  
+
 ## Software
 
+### Build
+- Win10
+  - 1.Open BPM.sln
+  - 2.Rebuild
+- Mac High Sierra
+  - 1.make
+  
 ### Dependence
 - Win10
   - wxWidgets 3.1.2
@@ -56,13 +120,24 @@ This project is electronic blood pressure monitor research platform with Oscillo
 ### Win10 GUI
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/WIN10.PNG?raw=true)  
 
-## Oscillometric Method
+### Operation Manual
+- "Ad/Am" and "As/Am" text box is Diastolic and Systolic BP Point of AC signal amplitude.
+- "Measurment" button is BP measurment after VCP connected.
+- "USB Mode" button is switch from "USB Mode"(Measurment) to "Calibration Mode", and vice versa.
+- "Pressurize" and "Leak" button for control mercury manometer high and low in calibration mode.
 
+## Oscillometric Method
+The two chart below show AC signal types, all of types are correct.
+
+### Type1 AC Signal
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type1.png?raw=true)  
 
+### Type2 AC Signal
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/type2.png?raw=true)  
 
 ## Calibration ADC-DC to Mercury Manometer Pressure
+
+Calibration Phase
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
 
