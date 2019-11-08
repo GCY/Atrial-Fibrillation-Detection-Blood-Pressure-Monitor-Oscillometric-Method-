@@ -47,13 +47,24 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ### Key Parameters
 
+TIM_Prescaler = (168M/2)/1M = 84M
+TIM_Period = TIMER_PWM_MAX/PWM_Freq = 1000
+
+TIM = 84M / TIM_Prescaler = 1M
+TIM = 1M / TIM_ClockDivision = 1M
+1M / (TIM_Period + 1) = 1000Hz (1ms)
+
 <pre><code>
 const uint16_t PWM_Freq = 1000;
+</code></pre>
 
+ARR = TIMER_PWM_MAX;
+CCR = 0~TIMER_PWM_MAX = 0~100% PWM
+<pre><code>
 const uint32_t PID_PWM_MIN = 1;
 const uint32_t PID_PWM_MAX = 100;
 const uint32_t TIMER_PWM_MIN = 100000;
-const uint32_t TIMER_PWM_MAX = 1000000;
+const uint32_t TIMER_PWM_MAX; = 1000000;
 const uint32_t TIMER_PWM_33 = 330000;
 const uint32_t TIMER_PWM_40 = 400000;
 </code></pre>
