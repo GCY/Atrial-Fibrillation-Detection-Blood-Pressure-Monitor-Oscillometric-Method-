@@ -61,7 +61,7 @@ const uint16_t PWM_Freq = 1000;
 ARR = TIMER_PWM_MAX;</br>
 CCR = 0 to TIMER_PWM_MAX = 0 to 100% PWM.</br>
 In this case, PID PWM step 1 to 100 mapped to 100000 to 1000000.</br>
-TIMER_PWM_33 and TIMER_PWM_40 is 33% and 40% PWM.</br>
+TIMER_PWM_33 and TIMER_PWM_40 is 33% and 40% PWM for calibration hand control.</br>
 <pre><code>
 const uint32_t PID_PWM_MIN = 1;
 const uint32_t PID_PWM_MAX = 100;
