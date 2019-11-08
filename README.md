@@ -78,7 +78,7 @@ float ad_am_value = 0.7f;
 </code></pre>
 
 Polynomial curve fitting is generated from 『Calibration ADC-DC to Mercury Manometer Pressure』, you'll need to create 『curve.csv』and execute PC-GUI software main.app or BPM.exe in the same folder, it will output the『equation.txt』.</br>
-e.g degree = 2, equation.txt format is : (-1.0620516546)x^0+(0.1262915457)x^1+(-0.0000012119)x^2 </br>
+e.g. degree = 2, equation.txt format is : (-1.0620516546)x^0+(0.1262915457)x^1+(-0.0000012119)x^2 </br>
 <pre><code>
 float a[3] = {-0.0000012119f,0.1262915457f,-1.0620516546f};
 </code></pre>
