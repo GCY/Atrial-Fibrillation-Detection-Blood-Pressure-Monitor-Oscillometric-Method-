@@ -47,19 +47,22 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ### Key Parameters
 
-TIM_Prescaler = (168M/2)/1M = 84M
-TIM_Period = TIMER_PWM_MAX/PWM_Freq = 1000
+PWM_Freq is DC Motor PWM frequency.</br>
+TIM_Prescaler = (168M/2)/1M = 84M</br>
+TIM_Period = TIMER_PWM_MAX/PWM_Freq = 1000</br>
 
-TIM = 84M / TIM_Prescaler = 1M
-TIM = 1M / TIM_ClockDivision = 1M
-1M / (TIM_Period + 1) = 1000Hz (1ms)
+TIM = 84M / TIM_Prescaler = 1M</br>
+TIM = 1M / TIM_ClockDivision = 1M</br>
+1M / (TIM_Period + 1) = 1000Hz (1ms)</br>
 
 <pre><code>
 const uint16_t PWM_Freq = 1000;
 </code></pre>
 
-ARR = TIMER_PWM_MAX;
-CCR = 0~TIMER_PWM_MAX = 0~100% PWM
+ARR = TIMER_PWM_MAX;</br>
+CCR = 0~TIMER_PWM_MAX = 0~100% PWM.</br>
+In this case, PID PWM step 1~100 mapped to 100000~1000000.</br>
+TIMER_PWM_33 and TIMER_PWM_40 is 33% and 40% PWM.</br>
 <pre><code>
 const uint32_t PID_PWM_MIN = 1;
 const uint32_t PID_PWM_MAX = 100;
@@ -69,6 +72,7 @@ const uint32_t TIMER_PWM_33 = 330000;
 const uint32_t TIMER_PWM_40 = 400000;
 </code></pre>
 
+AC amplitude point of Systolic and Diastolic BP.</br>
 <pre><code>
 float as_am_value = 0.65f;
 float ad_am_value = 0.7f;
@@ -78,6 +82,9 @@ float ad_am_value = 0.7f;
 float a[3] = {-0.0000012119f,0.1262915457f,-1.0620516546f};
 </code></pre>
 
+If pulse_value_N / total_pulse_value_mean > IPP_Ratio, pulse_N is irregular pulse peak, and IPP ratio range 15%~25%.</br>
+If IPP number / total_pulse_number > IHB_Ratio, this measurement is irregular heart beat.</br>
+If two or more IHB of the three BP measurements, AF detected.<br>
 <pre><code>
 const float IPP_Ratio = 0.2f;
 const float IHB_Ratio = 0.2f;
