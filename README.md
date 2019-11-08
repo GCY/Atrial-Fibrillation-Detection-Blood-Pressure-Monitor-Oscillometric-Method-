@@ -124,6 +124,7 @@ const float IHB_Ratio = 0.2f;
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/WIN10.PNG?raw=true)  
 
 ### Operation Manual
+- Menu Tools -> VCP is connect to device.
 - "Ad/Am" and "As/Am" text box is Diastolic and Systolic BP Point of AC signal amplitude.
 - "Measurment" button is BP measurment after VCP connected.
 - "USB Mode" button is switch from "USB Mode"(Measurment) to "Calibration Mode", and vice versa.
