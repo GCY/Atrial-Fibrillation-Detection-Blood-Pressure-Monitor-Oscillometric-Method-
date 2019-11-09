@@ -11,6 +11,9 @@ This project is electronic blood pressure monitor research platform with Oscillo
 - [x] RAW Data Record
 
 ## Hardware
+
+Project create is Eagle PCB 8.1.0</br>
+
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/assembly%20part%201.jpg?raw=true) 
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/assembly%20part%202.jpg?raw=true) 
@@ -69,6 +72,11 @@ const uint32_t TIMER_PWM_MIN = 100000;
 const uint32_t TIMER_PWM_MAX; = 1000000;
 const uint32_t TIMER_PWM_33 = 330000;
 const uint32_t TIMER_PWM_40 = 400000;
+</code></pre>
+
+This is PID parameter, you need to redefine in ResetMeasurementParameter() function.</br>
+<pre><code>
+Kp = 2, Ki = 0.3, Kd = 0.001; // for JQB032-3A
 </code></pre>
 
 AC signal amplitude point of Systolic and Diastolic BP.</br>
