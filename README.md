@@ -3,8 +3,6 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/v2%20pcb.jpg?raw=true)  
 
-[![Audi R8](http://img.youtube.com/vi/4AQXaJOquz4/0.jpg)](https://youtu.be/4AQXaJOquz4)
-
 ## Features
 - [x] Blood Pressure Measurment - Systolic, Diastolic, Mean
 - [x] Atrial Fibrillation Detection - Irregular Pulse Peak , Irregular Heart Beats
@@ -101,6 +99,9 @@ const float IHB_Ratio = 0.2f;
 
 ### Measurment Flowchart
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/measurment%20flowchart.png?raw=true) 
+
+### BPM Mode Demo
+[![Audi R8](http://img.youtube.com/vi/4AQXaJOquz4/0.jpg)](https://youtu.be/4AQXaJOquz4)
 
 ## Software
 
