@@ -163,7 +163,7 @@ The two chart below show AC signal types, all of types are correct.
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
 
-Below are a few real world examples of the AFib(for example PCV, PAC), envelope wave lost some peaks.</br>
+Below are a few real world cases of the AFib(for example PCV, PAC), envelope wave lost some peaks.</br>
 
 ### Premature Atrial Contractions
 
