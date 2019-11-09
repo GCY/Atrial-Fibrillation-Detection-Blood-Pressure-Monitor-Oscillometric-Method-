@@ -734,7 +734,7 @@ void Frame::BPCalculator()
 	 dbp_index = i;
       }
    }
-   if(dbp_index){
+   if(map_index != 0){
       dbp_layer_x.push_back(index_array[dbp_index]);
       dbp_layer_y.push_back(ac_array[dbp_index]);
    }
