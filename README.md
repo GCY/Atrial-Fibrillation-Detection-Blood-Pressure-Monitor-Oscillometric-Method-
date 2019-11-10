@@ -152,7 +152,7 @@ The two chart below show AC signal types, all of types are correct.
 
 ## Calibration ADC-DC to Mercury Manometer Pressure
 
-Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid Sphygmomanometer, you can buy products from Yuwell
+Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid Sphygmomanometer, you can buy products from Yuwell...etc </br>
 
 ### PC-GUI Software Control Steps
 - 1.Connecting device and PC-GUI software.
@@ -163,6 +163,7 @@ Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid
 - 6.Close PC-GUI software than reopen it, it will generate the『equation.txt』.
 - 7.copy equation and replace firmware parameter 『float a[3]』 in main.c.
 
+Column A is ADC0-value, B is Mercury Manometer mmHg pressure.</br>
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/calibration%20example.png?raw=true)  
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
