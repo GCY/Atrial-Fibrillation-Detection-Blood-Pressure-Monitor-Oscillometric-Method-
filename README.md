@@ -14,7 +14,7 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 Project create is Eagle PCB 8.1.0 .</br>
 
-*V2 version D1(BAT20) should be replaced with zero ohm resistor.*</br>
+<strong>V2 version D1(BAT20) should be replaced with zero ohm resistor.</strong></br>
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/assembly%20part%201.jpg?raw=true) 
 
