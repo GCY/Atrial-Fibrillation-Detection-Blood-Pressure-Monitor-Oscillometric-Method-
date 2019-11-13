@@ -12,7 +12,9 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ## Hardware
 
-Project create is Eagle PCB 8.1.0</br>
+Project create is Eagle PCB 8.1.0 .</br>
+
+<strong>V2 version, D1(BAT20) should be replaced with zero ohm resistor.</strong></br>
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/assembly%20part%201.jpg?raw=true) 
 
@@ -152,6 +154,8 @@ The two chart below show AC signal types, all of types are correct.
 
 ## Calibration ADC-DC to Mercury Manometer Pressure
 
+Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid Sphygmomanometer, you can buy products from Yuwell...etc </br>
+
 ### PC-GUI Software Control Steps
 - 1.Connecting device and PC-GUI software.
 - 2.Click USB Mode button switch to Calibration Mode, after this, OLED display show you ADC0 value per-second.
@@ -160,6 +164,9 @@ The two chart below show AC signal types, all of types are correct.
 - 5.checking curve.csv is located in the same folder as the PC-GUI software.
 - 6.Close PC-GUI software than reopen it, it will generate the『equation.txt』.
 - 7.copy equation and replace firmware parameter 『float a[3]』 in main.c.
+
+Column A is ADC0-value, B is Mercury Manometer mmHg pressure.</br>
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/calibration%20example.png?raw=true)  
 
 ## Atrial Fibrillation In Oscillometric Method Detect Algorithm
 
