@@ -115,6 +115,9 @@ const float IHB_Ratio = 0.2f;
 
 ## Software
 
+### AFib-BPM GUI Demo
+[![Audi R8](http://img.youtube.com/vi/8z78SInvyog/0.jpg)](https://youtu.be/8z78SInvyog)
+
 ### Build
 - Win10
   - 1.Open BPM.sln
