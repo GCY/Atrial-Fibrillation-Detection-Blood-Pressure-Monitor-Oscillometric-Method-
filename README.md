@@ -160,7 +160,7 @@ The two chart below show AC signal types, all of types are correct.
 
 ## Calibration ADC-DC to Mercury Manometer Pressure
 
-Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid Sphygmomanometer, you can buy products from Yuwell...etc </br>
+Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid Sphygmomanometer, you can buy products from Yuwell, Welch Allyn...etc </br>
 
 ### PC-GUI Software Control Steps
 - 1.Connecting device and PC-GUI software.
