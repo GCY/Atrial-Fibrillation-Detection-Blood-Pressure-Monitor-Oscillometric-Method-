@@ -3,6 +3,7 @@
 #include <wx/tokenzr.h>
 #include <wx/valnum.h>
 #include <wx/thread.h>
+#include <wx/stdpaths.h>
 
 #include <fstream>
 #include <cmath>
@@ -514,7 +515,10 @@ void Frame::ReadCurve()
    std::vector<double> x,y;
 
    std::string string;
-   std::fstream input("curve.csv",std::ios::in);
+   wxString str;
+   wxStandardPaths& sp = wxStandardPaths::Get();
+   str.Printf("%s/curve.csv",sp.GetResourcesDir());
+   std::fstream input(str.c_str(),std::ios::in);
    if(input.is_open()){
       while(input >> string){
 	 std::vector<std::string> sv;
