@@ -3,7 +3,9 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/v2%20pcb.jpg?raw=true)  
 
-<p style="text-align: center;"> ![](https://j.gifs.com/ANOEX9.gif) </p>
+<p style="text-align: center;"> 
+![](https://j.gifs.com/ANOEX9.gif) 
+</p>
 
 
 ## Features
