@@ -44,6 +44,7 @@ enum{
    ID_CONNECT_DEVICE,
    ID_MEASUREMENT,
    ID_PRESSURIZE,
+   ID_MERCURY_METER,
    ID_LEAK,
    ID_MODE
 };
@@ -76,6 +77,7 @@ class Frame:public wxFrame
       void OnKeyDown(wxKeyEvent& event);
       void OnConnectDevice(wxCommandEvent&);
       void OnMeasurment(wxCommandEvent&);
+      void OnMercuryMeter(wxCommandEvent&);
       void OnPressurize(wxCommandEvent&);
       void OnLeak(wxCommandEvent&);
       void OnMode(wxCommandEvent&);
@@ -155,12 +157,15 @@ class Frame:public wxFrame
 
       wxButton *measurement_button;
       wxButton *mode_button;
+      wxButton *mercury_meter_button;
       wxButton *pressurize_button;
       wxButton *leak_button;
 
       std::vector<double> a;
 
       bool first_point_flag;
+
+      bool mercury_meter_flag;
 
       uint32_t folder_counter;
 
@@ -222,6 +227,7 @@ DECLARE_APP(App)
    EVT_BUTTON(ID_MEASUREMENT,Frame::OnMeasurment)
    EVT_BUTTON(ID_PRESSURIZE,Frame::OnPressurize)
    EVT_BUTTON(ID_LEAK,Frame::OnLeak)
+   EVT_BUTTON(ID_MERCURY_METER,Frame::OnMercuryMeter)
    EVT_BUTTON(ID_MODE,Frame::OnMode)
    EVT_MENU(mpID_FIT, Frame::OnFit)
    EVT_THREAD(wxID_ANY, Frame::OnThreadEvent)
@@ -238,6 +244,8 @@ bool App::OnInit()
 
 Frame::Frame(const wxString &title):wxFrame(NULL,wxID_ANY,title,wxDefaultPosition,wxSize(1050,700),wxMINIMIZE_BOX | wxCLOSE_BOX | wxCAPTION | wxSYSTEM_MENU)
 {
+   mercury_meter_flag = false;
+
    run_flag = true;
 
    mode_switch = false;
@@ -450,6 +458,7 @@ void Frame::CreateUI()
    pressurize_button->Enable(false);
    leak_button = new wxButton(this,ID_LEAK,wxT("&Leak"),wxDefaultPosition,wxSize(100,35));
    leak_button->Enable(false);
+   mercury_meter_button = new wxButton(this,ID_MERCURY_METER,wxT("&Mercury Mode"),wxDefaultPosition,wxSize(100,35));   
 
    double value;
    wxFloatingPointValidator<double> _val(2,&value,wxNUM_VAL_ZERO_AS_BLANK);
@@ -482,6 +491,7 @@ void Frame::CreateUI()
    button_box->Add(mode_button, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 3);
    button_box->Add(pressurize_button, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 3);
    button_box->Add(leak_button, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 3);
+   button_box->Add(mercury_meter_button, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 3);
 
    top->Add(button_box,0,wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL);
 
@@ -625,6 +635,43 @@ void Frame::OnLeak(wxCommandEvent &event)
    event.Skip();
 }
 
+void Frame::OnMercuryMeter(wxCommandEvent &event)
+{
+   if(is_open){
+      unsigned char mercury_meter_str[2] = "H";
+      serial.Write(mercury_meter_str,2);
+
+      mercury_meter_flag ^= true;
+      if(mercury_meter_flag){
+	 measurement_button->Enable(false);
+	 FIR_reset_buffer(&info1);
+	 FIR_reset_buffer(&info2);
+
+	 baseline = 0;
+	 init_baseline_count = 0;
+
+	 dc_layer_x.clear();
+	 dc_layer_y.clear();
+	 ac_layer_x.clear();
+	 ac_layer_y.clear();
+	 peak_layer_x.clear();
+	 peak_layer_y.clear();
+	 trough_layer_x.clear();
+	 trough_layer_y.clear();
+	 map_layer_x.clear();
+	 map_layer_y.clear();
+	 sbp_layer_x.clear();
+	 sbp_layer_y.clear();
+	 dbp_layer_x.clear();
+	 dbp_layer_y.clear(); 	 
+      }
+      else{
+	 measurement_button->Enable(true);
+      }
+   }
+   event.Skip();
+}
+
 void Frame::OnMode(wxCommandEvent &event)
 {
    if(is_open){
@@ -634,12 +681,14 @@ void Frame::OnMode(wxCommandEvent &event)
       mode_switch ^= true;
       if(mode_switch){
 	 measurement_button->Enable(false);
+	 mercury_meter_button->Enable(false);
 	 pressurize_button->Enable(true);
 	 leak_button->Enable(true);
 	 mode_button->SetLabel(wxT("&Calib Mode"));
       }
       else{
 	 measurement_button->Enable(true);
+	 mercury_meter_button->Enable(true);
 	 pressurize_button->Enable(false);
 	 leak_button->Enable(false);       
 	 mode_button->SetLabel(wxT("&USB Mode"));
@@ -783,7 +832,13 @@ void Frame::BPCalculator()
 
 void Frame::OnThreadEvent(wxThreadEvent &event)
 {
-   const size_t MAX_POINT = 5000;
+   static size_t MAX_POINT = 5000;
+   if(!mercury_meter_flag){
+      MAX_POINT = 5000;
+   }
+   else if(mercury_meter_flag){
+      MAX_POINT = 500;
+   }
 
    if(event.GetInt() == EVT_SERIAL_PORT_READ && is_open){
 
@@ -828,7 +883,7 @@ void Frame::OnThreadEvent(wxThreadEvent &event)
 		     ++init_baseline_count;
 		  }
 		  else{
-		     if(!first_point_flag){
+		     if(!first_point_flag && !mercury_meter_flag){
 			first_point_flag = true;
 			++folder_counter;
 #ifdef _WIN_ 
@@ -877,7 +932,7 @@ void Frame::OnThreadEvent(wxThreadEvent &event)
 
 		     str.Printf(wxT("%.2f mmHg , %.2f , MAP : %.2f"),(dc_pressure), dc , MAP); //v1
 
-		     if(first_point_flag){
+		     if(first_point_flag && !mercury_meter_flag){
 			record_file << (((dc_pressure) < 0)?0:(dc_pressure)) << "," << value << ","; //v1
 		     }
 
@@ -894,55 +949,57 @@ void Frame::OnThreadEvent(wxThreadEvent &event)
 		     ac_layer_y.push_back(value);
 
 
-		     static const float CV_LIMIT = 50.0f;
-		     static const float THRESHOLD_FACTOR = 3.0f;
-		     double mean = CalculateMean(value);
-		     double rms = CalculateRootMeanSquare(value);
-		     double cv = CalculateCoefficientOfVariation(value);
-		     double threshold;
-		     if(cv > CV_LIMIT){
-			threshold = dc;
-		     }
-		     else{
-			threshold = (dc * (cv/100.0f) * THRESHOLD_FACTOR);
-		     }
-
-		     bool is_peak;
-		     SignalPoint result;
-		     result = PeakDetect(value,time_to_index,threshold,&is_peak);
-		     if(result.index != -1 && (pressure > PRESSURE_MIN && pressure < PRESSURE_MAX)){
-			if(is_peak){
-			   peak_layer_x.push_back(result.index);
-			   peak_layer_y.push_back(result.value);
-
-			   dc_array[pulse_index] = pressure;
-			   ac_array[pulse_index] = result.value;
-			   index_array[pulse_index] = time_to_index;
-
-			   ac_peak_file << dc_array[pulse_index] << "," << ac_array[pulse_index] << "," << index_array[pulse_index] << std::endl;
-
-			   ++pulse_index;
+		     if(!mercury_meter_flag){
+			static const float CV_LIMIT = 50.0f;
+			static const float THRESHOLD_FACTOR = 3.0f;
+			double mean = CalculateMean(value);
+			double rms = CalculateRootMeanSquare(value);
+			double cv = CalculateCoefficientOfVariation(value);
+			double threshold;
+			if(cv > CV_LIMIT){
+			   threshold = dc;
 			}
 			else{
-			   trough_layer_x.push_back(result.index);
-			   trough_layer_y.push_back(result.value);			
+			   threshold = (dc * (cv/100.0f) * THRESHOLD_FACTOR);
 			}
-		     }		  
 
-		     if(first_point_flag){
-			record_file << value << std::endl;
-		     }		  
+			bool is_peak;
+			SignalPoint result;
+			result = PeakDetect(value,time_to_index,threshold,&is_peak);
+			if(result.index != -1 && (pressure > PRESSURE_MIN && pressure < PRESSURE_MAX)){
+			   if(is_peak){
+			      peak_layer_x.push_back(result.index);
+			      peak_layer_y.push_back(result.value);
+
+			      dc_array[pulse_index] = pressure;
+			      ac_array[pulse_index] = result.value;
+			      index_array[pulse_index] = time_to_index;
+
+			      ac_peak_file << dc_array[pulse_index] << "," << ac_array[pulse_index] << "," << index_array[pulse_index] << std::endl;
+
+			      ++pulse_index;
+			   }
+			   else{
+			      trough_layer_x.push_back(result.index);
+			      trough_layer_y.push_back(result.value);			
+			   }
+			}		  
+
+			if(first_point_flag){
+			   record_file << value << std::endl;
+			}	
+		     }
 		     //ac_layer_y.push_back(wxAtoi(str));
 		     if (ac_layer_x.size() > MAX_POINT && ac_layer_y.size() > MAX_POINT){
 			ac_layer_x.erase(ac_layer_x.begin());
 			ac_layer_y.erase(ac_layer_y.begin());
-			if(peak_layer_x.size()){
+			if(peak_layer_x.size() && !mercury_meter_flag){
 			   if((time_to_index - peak_layer_x[0]) > MAX_POINT){
 			      peak_layer_x.erase(peak_layer_x.begin());
 			      peak_layer_y.erase(peak_layer_y.begin());
 			   }
 			}
-			if(trough_layer_x.size()){
+			if(trough_layer_x.size() && !mercury_meter_flag){
 			   if((time_to_index - trough_layer_x[0]) > MAX_POINT){
 			      trough_layer_x.erase(trough_layer_x.begin());
 			      trough_layer_y.erase(trough_layer_y.begin());

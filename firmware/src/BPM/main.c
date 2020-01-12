@@ -34,6 +34,7 @@
 enum{
    DATA_COLLECTION_MODE = 0,
    CALIBRATION_MODE,
+   MERCURY_METER_MODE,
    BPM_MODE,
    AF_MODE
 };
@@ -121,6 +122,8 @@ FIRInfo info2;
 uint32_t time_to_index = 0;
 
 uint32_t detect_time = 0;
+
+bool mercury_meter_flag = false;
 
 void Delay(__IO uint32_t nTime)
 {
@@ -435,20 +438,26 @@ void ResetMeasurementParameter()
    if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
       //Kp = 2.6, Ki = 0.33, Kd = 0.001;
       //Kp = 2.5, Ki = 0.33, Kd = 0.0006;
+
+      //Kp = 2.6, Ki = 0.3, Kd = 0.002;
       Kp = 2, Ki = 0.3, Kd = 0.001;
    }
    else{
+      //Kp = 2.6, Ki = 0.3, Kd = 0.002;
       Kp = 2, Ki = 0.3, Kd = 0.001;
    }
 
    //Kp = 4, Ki=0.5, Kd=0.00000;
    //Kp = 2.6, Ki=0.33, Kd=0.001;
-   /*   if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
+  /* 
+      if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
 	Kp = 4, Ki=0.5, Kd=0.00000;
 	}
 	else{
-	Kp = 2.6, Ki=0.33, Kd=0.001;
-	}*/
+	//Kp = 2.6, Ki=0.33, Kd=0.001;
+	Kp = 4, Ki=0.5, Kd=0.00000;
+	}
+*/
 
    baseline = 0;
    init_baseline_count = 0;	
@@ -788,7 +797,7 @@ int main(void)
 
 	 GPIO_SetBits(GPIOC, GPIO_Pin_13);
 
-	 if(mode != DATA_COLLECTION_MODE && mode != CALIBRATION_MODE){
+	 if(mode != DATA_COLLECTION_MODE && mode != CALIBRATION_MODE && mode != MERCURY_METER_MODE){
 	    mode = DATA_COLLECTION_MODE;
 	 }
 
@@ -805,6 +814,16 @@ int main(void)
 	       else{
 		  mode = CALIBRATION_MODE;
 		  GPIO_SetBits(GPIOB, GPIO_Pin_8);
+	       }
+	    }
+	    else if(c == 'h' || c == 'H'){
+	       mercury_meter_flag ^= true;
+	       if(mercury_meter_flag){
+		  mode = MERCURY_METER_MODE;
+	       }
+	       else{
+		  mode = DATA_COLLECTION_MODE;
+		  GPIO_ResetBits(GPIOB, GPIO_Pin_8);		  
 	       }
 	    }
 	    else if((mode == CALIBRATION_MODE) && (c == 'p' || c == 'P')){
@@ -873,6 +892,15 @@ int main(void)
 	       Delay(CALIBRATION_LEAK_TIME);
 	       GPIO_SetBits(GPIOB, GPIO_Pin_8);
 	       is_leak = false;
+	    }
+	 }
+	 else if(mode == MERCURY_METER_MODE){
+	    if(ADC3_ready){
+	       ADC3_ready = false;
+	       unsigned char str[255];
+
+	       sprintf(str,"R%d,%d,%d,%d,%d,",micros, ADC3_value[0], ADC3_value[1], ADC3_value[2], ADC3_value[3]);	 
+	       USB_VCP_Puts(str);
 	    }
 	 }
       }
