@@ -191,13 +191,13 @@ Below are a few real world cases of the AFib(for example PCV, PAC), envelope wav
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/pvc%20oscillometric.png?raw=true)  
 
 ## Reference
-Kabutoya, T., Imai, Y., Hoshide, S., & Kario, K. (2017). Diagnostic accuracy of a new algorithm to detect atrial fibrillation in a home blood pressure monitor. The Journal of Clinical Hypertension, 19(11), 1143-1147.
+- Kabutoya, T., Imai, Y., Hoshide, S., & Kario, K. (2017). Diagnostic accuracy of a new algorithm to detect atrial fibrillation in a home blood pressure monitor. The Journal of Clinical Hypertension, 19(11), 1143-1147.
 
-Ogedegbe, G., & Pickering, T. (2010). Principles and techniques of blood pressure measurement. Cardiology clinics, 28(4), 571-586.
+- Ogedegbe, G., & Pickering, T. (2010). Principles and techniques of blood pressure measurement. Cardiology clinics, 28(4), 571-586.
 
-Geddes, L. A., Voelz, M., Combs, C., Reiner, D., & Babbs, C. F. (1982). Characterization of the oscillometric method for measuring indirect blood pressure. Annals of biomedical engineering, 10(6), 271-280.
+- Geddes, L. A., Voelz, M., Combs, C., Reiner, D., & Babbs, C. F. (1982). Characterization of the oscillometric method for measuring indirect blood pressure. Annals of biomedical engineering, 10(6), 271-280.
 
-C++ Program for Polynomial Fit (Least Squares) : https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
+- C++ Program for Polynomial Fit (Least Squares) : https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
 
 LICENSE
 -------
