@@ -5,6 +5,16 @@ This project is electronic blood pressure monitor research platform with Oscillo
 
 ![](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/demo.gif) 
 
+## Blood Pressure Measurement Oscillometric Method
+
+The oscillometric method was first demonstrated in 1876 and involves the observation of oscillations in the sphygmomanometer cuff pressure which are caused by the oscillations of blood flow, It uses a sphygmomanometer cuff, like the auscultatory method, but with an electronic pressure sensor (transducer) to observe cuff pressure oscillations, electronics to automatically interpret them, and automatic inflation and deflation of the cuff. The pressure sensor should be calibrated periodically to maintain accuracy.
+
+A new analysis of relevant anatomy, physiology and physics reveals the mechanisms underlying the production of cuff pressure oscillations as well as a way to extract systolic and diastolic pressures from the envelope of oscillations in any individual subject. Stiffness characteristics of the compressed artery segment can be extracted from the envelope shape to create an individualized mathematical model. The model is tested with a matrix of possible systolic and diastolic pressure values, and the minimum least squares difference between observed and predicted envelope functions indicates the best fit choices of systolic and diastolic pressure within the test matrix.
+
+In practice the different methods do not give identical results; an algorithm and experimentally obtained coefficients are used to adjust the oscillometric results to give readings which match the auscultatory results as well as possible. Accurate extraction of systolic and diastolic pressures from the envelope of cuff pressure oscillations remains an open problem in biomedical engineering. Since many oscillometric devices have not been validated, caution must be given as most are not suitable in clinical and acute care settings.
+
+via [wiki.](https://en.wikipedia.org/wiki/Blood_pressure_measurement)
+
 
 ## Features
 - [x] Blood Pressure Measurment - Systolic, Diastolic, Mean
@@ -194,6 +204,8 @@ Below are a few real world cases of the AFib(for example PCV, PAC), envelope wav
 - Kabutoya, T., Imai, Y., Hoshide, S., & Kario, K. (2017). Diagnostic accuracy of a new algorithm to detect atrial fibrillation in a home blood pressure monitor. The Journal of Clinical Hypertension, 19(11), 1143-1147.
 
 - Ogedegbe, G., & Pickering, T. (2010). Principles and techniques of blood pressure measurement. Cardiology clinics, 28(4), 571-586.
+
+- Babbs, C. F. (2012). Oscillometric measurement of systolic and diastolic blood pressures validated in a physiologic mathematical model. Biomedical engineering online, 11(1), 56.
 
 - Geddes, L. A., Voelz, M., Combs, C., Reiner, D., & Babbs, C. F. (1982). Characterization of the oscillometric method for measuring indirect blood pressure. Annals of biomedical engineering, 10(6), 271-280.
 
