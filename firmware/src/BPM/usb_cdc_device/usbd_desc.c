@@ -33,8 +33,7 @@
 #include "usb_regs.h"
 
 #define USBD_VID                        0x0483
-#define USBD_PID                        0x5740	// Install STSW-STM32102 for windows10
-//#define USBD_PID                        0x5710		// MAC
+#define USBD_PID                        0x5740
 
 /** @defgroup USB_String_Descriptors
   * @{
@@ -74,8 +73,8 @@ __ALIGN_BEGIN uint8_t USBD_DeviceDesc[USB_SIZ_DEVICE_DESC] __ALIGN_END =
     USB_DEVICE_DESCRIPTOR_TYPE, /*bDescriptorType*/
     0x00,                       /*bcdUSB */
     0x02,
-    0x00,                       /*bDeviceClass*/
-    0x00,                       /*bDeviceSubClass*/
+    0x02,                       /*bDeviceClass*/
+    0x02,                       /*bDeviceSubClass*/
     0x00,                       /*bDeviceProtocol*/
     USB_OTG_MAX_EP0_SIZE,      /*bMaxPacketSize*/
     LOBYTE(USBD_VID),           /*idVendor*/

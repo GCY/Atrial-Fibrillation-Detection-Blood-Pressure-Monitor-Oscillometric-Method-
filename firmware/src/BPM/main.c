@@ -440,11 +440,11 @@ void ResetMeasurementParameter()
       //Kp = 2.5, Ki = 0.33, Kd = 0.0006;
 
       //Kp = 2.6, Ki = 0.3, Kd = 0.002;
-      Kp = 2, Ki = 0.3, Kd = 0.001;
+      Kp = 3.2, Ki = 0.4, Kd = 0.002;
    }
    else{
       //Kp = 2.6, Ki = 0.3, Kd = 0.002;
-      Kp = 2, Ki = 0.3, Kd = 0.001;
+      Kp = 2.8, Ki = 0.4, Kd = 0.002;
    }
 
    //Kp = 4, Ki=0.5, Kd=0.00000;
