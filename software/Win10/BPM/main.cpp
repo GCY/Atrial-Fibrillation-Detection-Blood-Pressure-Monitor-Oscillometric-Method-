@@ -260,12 +260,12 @@ Frame::Frame(const wxString &title):wxFrame(NULL,wxID_ANY,title,wxDefaultPositio
    dc_layer = new mpFXYVector(wxT("DC Signal"),mpALIGN_NE);
    dc_layer->ShowName(false);
    dc_layer->SetContinuity(true);
-   wxPen vectorpen(*wxRED, 2, wxSOLID);
+   wxPen vectorpen(*wxRED, 2, wxPENSTYLE_SOLID);
    dc_layer->SetPen(vectorpen);
    dc_layer->SetDrawOutsideMargins(false);
 
    wxFont graphFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-   mpScaleX* xaxis = new mpScaleX(wxT("Time（index）"), mpALIGN_BOTTOM, true, mpX_NORMAL);
+   mpScaleX* xaxis = new mpScaleX(wxT("Time(index)"), mpALIGN_BOTTOM, true, mpX_NORMAL);
    mpScaleY* yaxis = new mpScaleY(wxT("mmHg"), mpALIGN_LEFT, true);
    xaxis->SetFont(graphFont);
    yaxis->SetFont(graphFont);
@@ -275,7 +275,7 @@ Frame::Frame(const wxString &title):wxFrame(NULL,wxID_ANY,title,wxDefaultPositio
    dc_plot->AddLayer(     xaxis );
    dc_plot->AddLayer(     yaxis );
    dc_plot->AddLayer(     dc_layer );
-   wxBrush hatch(wxColour(200,200,200), wxSOLID);
+   wxBrush hatch(wxColour(200,200,200), wxBRUSHSTYLE_SOLID);
 
    mpInfoLegend* leg;
    dc_plot->AddLayer( leg = new mpInfoLegend(wxRect(200,20,40,40), wxTRANSPARENT_BRUSH));
@@ -288,12 +288,12 @@ Frame::Frame(const wxString &title):wxFrame(NULL,wxID_ANY,title,wxDefaultPositio
    ac_layer = new mpFXYVector(wxT("AC Signal"),mpALIGN_NE);
    ac_layer->ShowName(false);
    ac_layer->SetContinuity(true);
-   wxPen vectorpen1(*wxCYAN, 2, wxSOLID);
+   wxPen vectorpen1(*wxCYAN, 2, wxPENSTYLE_SOLID);
    ac_layer->SetPen(vectorpen1);
    ac_layer->SetDrawOutsideMargins(false);
 
-   xaxis = new mpScaleX(wxT("Time（index）"), mpALIGN_BOTTOM, true, mpX_NORMAL);
-   yaxis = new mpScaleY(wxT("Amplitude（12bit）"), mpALIGN_LEFT, true);
+   xaxis = new mpScaleX(wxT("Time(index)"), mpALIGN_BOTTOM, true, mpX_NORMAL);
+   yaxis = new mpScaleY(wxT("Amplitude(12bit)"), mpALIGN_LEFT, true);
    xaxis->SetFont(graphFont);
    yaxis->SetFont(graphFont);
    xaxis->SetDrawOutsideMargins(false);

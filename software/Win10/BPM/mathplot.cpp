@@ -104,7 +104,7 @@ wxBitmap mpLayer::GetColourSquare(int side)
 {
 	wxBitmap square(side, side, -1);
 	wxColour filler = m_pen.GetColour();
-	wxBrush brush(filler, wxSOLID);
+	wxBrush brush(filler, wxBRUSHSTYLE_SOLID);
 	wxMemoryDC dc;
 	dc.SelectObject(square);
 	dc.SetBackground(brush);
@@ -1616,7 +1616,7 @@ void mpWindow::OnMouseMove(wxMouseEvent& event)
 			if (m_movingInfoLayer == nullptr)
 			{
 				wxClientDC dc(this);
-				wxPen pen(*wxBLACK, 1, wxDOT);
+				wxPen pen(*wxBLACK, 1, wxPENSTYLE_DOT);
 				dc.SetPen(pen);
 				dc.SetBrush(*wxTRANSPARENT_BRUSH);
 				dc.DrawRectangle(
