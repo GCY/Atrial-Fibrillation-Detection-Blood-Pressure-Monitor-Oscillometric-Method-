@@ -17,6 +17,8 @@
 
 #include "mathplot.h"
 #include "connectargsdlg.h"
+#include "pidargsdlg.h"
+#include "bpalgodlg.h"
 #include "serialport.h"
 
 #include "define.h"
@@ -42,6 +44,8 @@ enum{
    ID_VCP,
    ID_CLEAR_ALL_PLOT,
    ID_CONNECT_DEVICE,
+   ID_PID_TUNING,
+   ID_AS_AD_TUNING,
    ID_MEASUREMENT,
    ID_PRESSURIZE,
    ID_MERCURY_METER,
@@ -52,6 +56,10 @@ enum{
 enum{
    EVT_SERIAL_PORT_READ = 625,
    EVT_REFRESH_PLOT
+};
+
+enum{
+   ID_THREAD = 9999
 };
 
 class Thread;
@@ -76,6 +84,8 @@ class Frame:public wxFrame
       void OnOpen(wxCommandEvent&);
       void OnKeyDown(wxKeyEvent& event);
       void OnConnectDevice(wxCommandEvent&);
+      void OnPIDTuning(wxCommandEvent&);
+      void OnAsAdTuning(wxCommandEvent&);
       void OnMeasurment(wxCommandEvent&);
       void OnMercuryMeter(wxCommandEvent&);
       void OnPressurize(wxCommandEvent&);
@@ -216,14 +226,15 @@ class Thread:public wxThread
       wxEvtHandler *handler;
 };
 
-   IMPLEMENT_APP(App)
+IMPLEMENT_APP(App)
 DECLARE_APP(App)
-
    BEGIN_EVENT_TABLE(Frame,wxFrame)
    EVT_MENU(ID_EXIT,Frame::OnExit)
    EVT_MENU(ID_OPEN,Frame::OnOpen)
    EVT_MENU(ID_CLEAR_ALL_PLOT,Frame::OnClearAllPlot)
    EVT_MENU(ID_CONNECT_DEVICE,Frame::OnConnectDevice)
+   EVT_MENU(ID_PID_TUNING,Frame::OnPIDTuning)
+   EVT_MENU(ID_AS_AD_TUNING,Frame::OnAsAdTuning)
    EVT_BUTTON(ID_MEASUREMENT,Frame::OnMeasurment)
    EVT_BUTTON(ID_PRESSURIZE,Frame::OnPressurize)
    EVT_BUTTON(ID_LEAK,Frame::OnLeak)
@@ -434,11 +445,16 @@ void Frame::CreateUI()
    view->Append(mpID_FIT,wxT("F&it\tAlt-f"),wxT("Fit"));
    view->Append(ID_CLEAR_ALL_PLOT,wxT("C&lear Plot\tAlt-c"),wxT("Clear All Plot"));
 
+   wxMenu *tuning = new wxMenu;
+   tuning->Append(ID_PID_TUNING,wxT("P&ID\tAlt-p"),wxT("Tuning PID Parameters"));
+   tuning->Append(ID_AS_AD_TUNING,wxT("A&s/Ad\tAlt-b"),wxT("BP Algorithm As/Ad Tuning"));
+
    wxMenuBar *bar = new wxMenuBar;
 
    bar->Append(file,wxT("File"));
    bar->Append(tools,wxT("Tools"));
    bar->Append(view,wxT("View"));
+   bar->Append(tuning,wxT("Tuning"));
    SetMenuBar(bar);
 
    dc_plot = new mpWindow( this, -1, wxPoint(15,10), wxSize(1020,300), wxBORDER_SUNKEN );
@@ -559,6 +575,55 @@ void Frame::ReadCurve()
       a.push_back(-0.0000012119f);
 
    }
+}
+
+void Frame::OnPIDTuning(wxCommandEvent &event)
+{
+
+   if(is_open){
+      PIDArgsDialog dlg(this,wxID_ANY,wxT("PID Tuning"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
+
+      if(dlg.ShowModal() == wxID_OK){
+	 uint16_t p = dlg.GetP() * 100;
+	 uint16_t i = dlg.GetI() * 100;
+	 uint16_t d = dlg.GetD() * 100;
+
+	 wxString pid_wxstr = wxString::Format(wxT("J%4d"),p) + wxString::Format(wxT("%4d"),i) + wxString::Format(wxT("%4dL"),d);
+
+	 unsigned char pid_str[15];
+	 for(int i = 0;i < pid_wxstr.length();++i){
+	    pid_str[i] = pid_wxstr[i];
+	 }
+
+	 serial.Write(pid_str,15);
+
+      }
+   }
+
+
+   event.Skip();
+}
+
+void Frame::OnAsAdTuning(wxCommandEvent &event)
+{
+   if(is_open){
+      BPAlgoDialog dlg(this,wxID_ANY,wxT("As/Ad Tuning"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE);
+      if(dlg.ShowModal() == wxID_OK){
+	 uint16_t As = dlg.GetAs();
+	 uint16_t Ad = dlg.GetAd();
+
+	 wxString as_ad_wxstr = wxString::Format(wxT("B%2d"),As) + wxString::Format(wxT("%2dL"),Ad);
+
+	 unsigned char as_ad_str[7];
+	 for(int i = 0;i < as_ad_wxstr.length();++i){
+	    as_ad_str[i] = as_ad_wxstr[i];
+	 }
+
+	 serial.Write(as_ad_str,7);	 
+      }
+   }
+
+   event.Skip();
 }
 
 void Frame::OnMeasurment(wxCommandEvent &event)
@@ -725,11 +790,13 @@ void Frame::OnConnectDevice(wxCommandEvent &event)
       run_flag = true;
 
       if(is_open){
+
 	 unsigned char gid[4] = "ACK";
 	 serial.Write(gid,4);
 
 	 unsigned char sms[4] = "GOT";
 	 serial.Write(sms,4);  
+
       }
       else{
 	 wxMessageBox(wxT("Serial Port Error!"),wxT("Error!"));

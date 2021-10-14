@@ -12,6 +12,7 @@
 #include <stm32f4xx_dma.h>
 #include <stm32f4xx_rtc.h>
 #include <stm32f4xx_tim.h>
+#include <stm32f4xx_flash.h>
 
 #include "define.h"
 
@@ -47,8 +48,12 @@ volatile uint32_t TimingDelay;
 
 volatile uint32_t micros = 20000000;
 
+const uint32_t FLASH_ADDRESS_AS = 0x080E0020;
+const uint32_t FLASH_ADDRESS_AD = 0x080E0024;
 float as_am_value = 0.65f;
 float ad_am_value = 0.7f;
+uint32_t set_as, set_ad;
+bool as_ad_is_set = false;
 
 float a[3] = {-0.0000012119f,0.1262915457f,-1.0620516546f};
 
@@ -73,7 +78,14 @@ bool calibration_flag = false;
 float last_pressure = 0;
 float diff_pressure = 0;
 float pwm = 0,setpoint = 3;
-float Kp = 2, Ki = 0.3, Kd = 0.001;
+float Kp = 2.8, Ki = 0.3, Kd = 0.2;
+const uint32_t FLASH_ADDRESS_START = 0x080E000C;
+const uint32_t FLASH_ADDRESS_P = 0x080E0010;
+const uint32_t FLASH_ADDRESS_I = 0x080E0014;
+const uint32_t FLASH_ADDRESS_D = 0x080E0018;
+const uint32_t FLASH_ADDRESS_END = 0x080E001C;
+uint32_t set_kp,set_ki,set_kd;
+bool pid_is_set = false;
 
 const uint32_t PID_PWM_MIN = 1;
 const uint32_t PID_PWM_MAX = 100;
@@ -346,6 +358,80 @@ void MOTOR_PWM_out(uint16_t PWM_Freq)
 
 }
 
+void WriteParameters2FLASH()
+{
+
+   FLASH_Unlock();
+   FLASH_ClearFlag( FLASH_FLAG_EOP |  FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+   FLASH_EraseSector(FLASH_Sector_11,VoltageRange_3);
+   FLASH_ProgramWord(FLASH_ADDRESS_START,0x12345678);
+   FLASH_ProgramWord(FLASH_ADDRESS_P,set_kp);
+   FLASH_ProgramWord(FLASH_ADDRESS_I,set_ki);
+   FLASH_ProgramWord(FLASH_ADDRESS_D,set_kd);
+   FLASH_ProgramWord(FLASH_ADDRESS_END,0x87654321);
+
+   FLASH_ProgramWord(FLASH_ADDRESS_AS,set_as);
+   FLASH_ProgramWord(FLASH_ADDRESS_AD,set_ad);
+   
+   FLASH_Lock();
+}
+
+void SetPIDParameter()
+{
+   uint8_t c;
+   char pid_str[14];
+   int i = 0;
+   while(USB_VCP_Getc(&c) == USB_VCP_DATA_OK){
+      if(c == 'l' || c == 'L'){
+	 char p_str[5]="", i_str[5]="", d_str[5]="";
+	 p_str[0] = pid_str[0];p_str[1] = pid_str[1];p_str[2] = pid_str[2];p_str[3] = pid_str[3];
+	 i_str[0] = pid_str[4];i_str[1] = pid_str[5];i_str[2] = pid_str[6];i_str[3] = pid_str[7];
+	 d_str[0] = pid_str[8];d_str[1] = pid_str[9];d_str[2] = pid_str[10];d_str[3] = pid_str[11];
+
+	 set_kp = atoi(p_str);
+	 set_ki = atoi(i_str);
+	 set_kd = atoi(d_str);
+	 set_as = *(uint32_t*)FLASH_ADDRESS_AS;
+	 set_ad = *(uint32_t*)FLASH_ADDRESS_AD;
+
+	 pid_is_set = true;
+
+	 WriteParameters2FLASH();    
+
+	 break;
+      }
+      pid_str[i++] = c;
+   }
+
+}
+
+void SetBPAlgoAsAd()
+{
+   uint8_t c;
+   char as_ad_str[6];
+   int i = 0;
+   while(USB_VCP_Getc(&c) == USB_VCP_DATA_OK){
+      if(c == 'l' || c == 'L'){
+	 char as_str[3]="", ad_str[3]="";
+	 as_str[0] = as_ad_str[0];as_str[1] = as_ad_str[1];
+	 ad_str[0] = as_ad_str[2];ad_str[1] = as_ad_str[3];
+
+	 set_as = atoi(as_str);
+	 set_ad = atoi(ad_str);
+	 set_kp = *(uint32_t*)FLASH_ADDRESS_P;
+	 set_ki = *(uint32_t*)FLASH_ADDRESS_I;
+	 set_kd = *(uint32_t*)FLASH_ADDRESS_D; 
+
+	 as_ad_is_set = true;
+
+	 WriteParameters2FLASH();    
+
+	 break;
+      }
+      as_ad_str[i++] = c;
+   }   
+}
+
 void Init_Peripheral()
 {
    USBVCPInit();
@@ -432,32 +518,26 @@ void ResetMeasurementParameter()
    last_pressure = 0;
    diff_pressure = 0;
    pwm = 0;
-   //Kp=1.3, Ki=0.51, Kd=0.003;
-   //Kp = 2.6, Ki = 0.2, Kd = 0.002;
 
-   if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
-      //Kp = 2.6, Ki = 0.33, Kd = 0.001;
-      //Kp = 2.5, Ki = 0.33, Kd = 0.0006;
+   /*
+      if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
+   //Kp = 2.6, Ki = 0.33, Kd = 0.001;
+   //Kp = 2.5, Ki = 0.33, Kd = 0.0006;
 
-      //Kp = 2.6, Ki = 0.3, Kd = 0.002;
-      Kp = 3.2, Ki = 0.4, Kd = 0.002;
+   //Kp = 2.6, Ki = 0.3, Kd = 0.002;
+   Kp = 3.2, Ki = 0.4, Kd = 0.002;
    }
    else{
-      //Kp = 2.6, Ki = 0.3, Kd = 0.002;
-      Kp = 2.8, Ki = 0.4, Kd = 0.002;
-   }
+   //Kp = 2.6, Ki = 0.3, Kd = 0.002;
+   Kp = 2.8, Ki = 0.3, Kd = 0.2;
+   }*/
 
-   //Kp = 4, Ki=0.5, Kd=0.00000;
-   //Kp = 2.6, Ki=0.33, Kd=0.001;
-  /* 
-      if(USB_VCP_GetStatus() == USB_VCP_CONNECTED){
-	Kp = 4, Ki=0.5, Kd=0.00000;
-	}
-	else{
-	//Kp = 2.6, Ki=0.33, Kd=0.001;
-	Kp = 4, Ki=0.5, Kd=0.00000;
-	}
-*/
+   Kp = ((float)(*(uint32_t*)FLASH_ADDRESS_P)) / 100.0f;
+   Ki = ((float)(*(uint32_t*)FLASH_ADDRESS_I)) / 100.0f;
+   Kd = ((float)(*(uint32_t*)FLASH_ADDRESS_D)) / 100.0f;
+
+   as_am_value = ((float)(*(uint32_t*)FLASH_ADDRESS_AS)) / 100.0f;
+   ad_am_value = ((float)(*(uint32_t*)FLASH_ADDRESS_AD)) / 100.0f;   
 
    baseline = 0;
    init_baseline_count = 0;	
@@ -789,7 +869,6 @@ int main(void)
    last_update = micros;
    last_screen_update = micros;
 
-
    while(1){
 
       /* USB Mode */
@@ -806,6 +885,12 @@ int main(void)
 	    if(c == 'm' || c == 'M'){
 	       ResetMeasurementParameter();
 	    }
+	    else if(c == 'j' || c == 'J'){
+	       SetPIDParameter();
+	    }
+	    else if(c == 'b' || c == 'B'){
+	       SetBPAlgoAsAd();
+	    }			    
 	    else if(c == 's' || c == 'S'){
 	       if(mode != DATA_COLLECTION_MODE){
 		  mode = DATA_COLLECTION_MODE;
@@ -832,6 +917,7 @@ int main(void)
 	    else if((mode == CALIBRATION_MODE) && (c == 'l' || c == 'L')){
 	       is_leak = true;
 	    }
+
 	 }
 	 /* USB mode for algorithm finetune and RAW data collection */
 	 if(mode == DATA_COLLECTION_MODE){
@@ -839,12 +925,29 @@ int main(void)
 	       char str[255] = "";
 	       sprintf(str,"%d mmHg",(uint32_t)pressure);
 	       SSD1306_Fill(0x00);
-	       SSD1306_GotoXY(20, 5);
-	       SSD1306_Puts("USB Mode", &Font_11x18, 0xFF);	    
+
+	       //SSD1306_GotoXY(20, 5);
+	       //SSD1306_Puts("USB Mode", &Font_11x18, 0xFF);
+	       if(pid_is_set || as_ad_is_set){
+		  char set_str[255] = "";
+		  sprintf(set_str,"P:%d I:%d D:%d",set_kp,set_ki,set_kd);
+		  SSD1306_GotoXY(0, 5);
+		  SSD1306_Puts(set_str, &Font_7x10, 0xFF);
+		  sprintf(set_str,"As:%d Ad:%d",set_as,set_ad);
+		  SSD1306_GotoXY(0, 15);
+		  SSD1306_Puts(set_str, &Font_7x10, 0xFF);		  
+	       }
+	       else{
+		  SSD1306_GotoXY(20, 5);
+		  SSD1306_Puts("USB Mode", &Font_11x18, 0xFF);
+	       }
+
 	       SSD1306_GotoXY(20, 35);
 	       SSD1306_Puts(str, &Font_11x18, 0xFF);
 	       SSD1306_UpdateScreen();
 	       last_screen_update = micros;
+
+
 	    }	 
 
 	    Measurement(DATA_COLLECTION_MODE);
@@ -970,7 +1073,7 @@ int main(void)
 	    }	
 
 	    Measurement(AF_MODE);
-	    
+
 	 }
 	 else{
 	    SSD1306_Fill(0x00);
