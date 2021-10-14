@@ -189,7 +189,7 @@ When burning the firmware for the first time, you must set the PID control and b
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/pid-dlg.png?raw=true)  
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/asad-dlg.png?raw=true)  
 
-Show set parameters. If the parameters are unset, the value is "0xFFFFFFFF" in sector11 of flash.</br>
+Display the parameters that have been set. If the parameters are unset, the value is "0xFFFFFFFF" in sector11 of flash.</br>
 
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/tuning-dis.png?raw=true)  
 
