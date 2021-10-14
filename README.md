@@ -183,6 +183,17 @@ Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid
 - 6.Close PC-GUI software than reopen it, it will generate the『equation.txt』.
 - 7.copy equation and replace firmware parameter 『float a[3]』 in main.c.
 
+### Parameters Setup
+When burning the firmware for the first time, you must set the PID control and blood pressure algorithm parameters. After the PC-Host and VCP are successfully connected, select the Tuning menu to adjust the parameters.</br>
+
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/pid-dlg.png?raw=true)  
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/asad-dlg.png?raw=true)  
+
+Show set parameters. If the parameters are unset, the value is "0xFFFFFFFF" in sector11 of flash.</br>
+
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/tuning-dis.png?raw=true)  
+
+
 Column A is ADC0-value, B is Mercury Manometer mmHg pressure.</br>
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/calibration%20example.png?raw=true)  
 
