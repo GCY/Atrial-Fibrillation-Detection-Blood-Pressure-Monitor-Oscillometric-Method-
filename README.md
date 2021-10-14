@@ -148,6 +148,16 @@ const float IHB_Ratio = 0.2f;
   - wxWidgets 3.x
   - g++
 
+### Parameters Setup
+When burning the firmware for the first time, you must set the PID control and blood pressure algorithm parameters. After the PC-Host and VCP are successfully connected, select the Tuning menu to adjust the parameters.</br>
+
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/pid-dlg.png?raw=true)  
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/asad-dlg.png?raw=true)  
+
+Display the parameters that have been set. If the parameters are unset, the value is "0xFFFFFFFF" in sector11 of flash. The PID parameters shown in the figure need to be divided by hundred. (for example, P = 290, in firmware, P is 2.9 .)</br>
+
+![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/tuning-dis.png?raw=true)  
+
 ### Mac High Sierra GUI
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/MAC%20OS%20X.png?raw=true)  
 
@@ -182,17 +192,6 @@ Pressure calibration reference is Mercury Manometer(Sphygmomanometer) or Aneroid
 - 5.checking curve.csv is located in the same folder as the PC-GUI software.
 - 6.Close PC-GUI software than reopen it, it will generate the『equation.txt』.
 - 7.copy equation and replace firmware parameter 『float a[3]』 in main.c.
-
-### Parameters Setup
-When burning the firmware for the first time, you must set the PID control and blood pressure algorithm parameters. After the PC-Host and VCP are successfully connected, select the Tuning menu to adjust the parameters.</br>
-
-![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/pid-dlg.png?raw=true)  
-![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/asad-dlg.png?raw=true)  
-
-Display the parameters that have been set. If the parameters are unset, the value is "0xFFFFFFFF" in sector11 of flash. The PID parameters shown in the figure need to be divided by hundred. (for example, P = 290, in firmware, P is 2.9 .)</br>
-
-![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/tuning-dis.png?raw=true)  
-
 
 Column A is ADC0-value, B is Mercury Manometer mmHg pressure.</br>
 ![alt text](https://github.com/GCY/Atrial-Fibrillation-Detection-Blood-Pressure-Monitor-Oscillometric-Method-/blob/master/res/calibration%20example.png?raw=true)  
