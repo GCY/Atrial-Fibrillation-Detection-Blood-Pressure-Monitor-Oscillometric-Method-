@@ -31,6 +31,7 @@ class PIDArgsDialog:public wxDialog
       double GetP(){return p_sbd->GetValue();}
       double GetI(){return i_sbd->GetValue();}
       double GetD(){return d_sbd->GetValue();}
+      double GetSP(){return sp_sbd->GetValue();}
 
    private:
 /*
@@ -42,6 +43,7 @@ class PIDArgsDialog:public wxDialog
       wxSpinCtrlDouble  *p_sbd;
       wxSpinCtrlDouble  *i_sbd;
       wxSpinCtrlDouble  *d_sbd;
+      wxSpinCtrlDouble  *sp_sbd;
       DECLARE_CLASS(PIDArgsDialog)
 };
 

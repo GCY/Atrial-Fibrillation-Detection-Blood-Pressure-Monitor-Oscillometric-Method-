@@ -587,15 +587,19 @@ void Frame::OnPIDTuning(wxCommandEvent &event)
 	 uint16_t p = dlg.GetP() * 100;
 	 uint16_t i = dlg.GetI() * 100;
 	 uint16_t d = dlg.GetD() * 100;
+	 uint16_t sp = dlg.GetSP();
 
-	 wxString pid_wxstr = wxString::Format(wxT("J%4d"),p) + wxString::Format(wxT("%4d"),i) + wxString::Format(wxT("%4dL"),d);
+	 wxString pid_wxstr = wxString::Format(wxT("J%4d"),p) 
+	    + wxString::Format(wxT("%4d"),i) 
+	    + wxString::Format(wxT("%4d"),d)
+	    + wxString::Format(wxT("%4dL"),sp);
 
-	 unsigned char pid_str[15];
+	 unsigned char pid_str[18] = "";
 	 for(int i = 0;i < pid_wxstr.length();++i){
 	    pid_str[i] = pid_wxstr[i];
 	 }
 
-	 serial.Write(pid_str,15);
+	 serial.Write(pid_str,18);
 
       }
    }

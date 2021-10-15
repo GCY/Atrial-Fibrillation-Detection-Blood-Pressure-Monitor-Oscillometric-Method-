@@ -65,7 +65,15 @@ void PIDArgsDialog::CreateControls()
    d_sbd->SetValue(0.2);
    d_sbd->SetIncrement(0.1);
    box->Add(d_text,0,wxALL,5);
-   box->Add(d_sbd,0,wxALL,5);   
+   box->Add(d_sbd,0,wxALL,5);  
+
+   wxStaticText *sp_text = new wxStaticText(this, wxID_ANY, "mmHg/s:");   
+   sp_sbd = new wxSpinCtrlDouble( this);
+   sp_sbd->SetRange(1,30);
+   sp_sbd->SetValue(3);
+   sp_sbd->SetIncrement(1);
+   box->Add(sp_text,0,wxALL,5);
+   box->Add(sp_sbd,0,wxALL,5);     
 
    wxBoxSizer *ResetOkCancelBox = new wxBoxSizer(wxHORIZONTAL);
    top->Add(ResetOkCancelBox,0,wxALIGN_CENTER_HORIZONTAL | wxALL,5);

@@ -79,12 +79,11 @@ float last_pressure = 0;
 float diff_pressure = 0;
 float pwm = 0,setpoint = 3;
 float Kp = 2.8, Ki = 0.3, Kd = 0.2;
-const uint32_t FLASH_ADDRESS_START = 0x080E000C;
 const uint32_t FLASH_ADDRESS_P = 0x080E0010;
 const uint32_t FLASH_ADDRESS_I = 0x080E0014;
 const uint32_t FLASH_ADDRESS_D = 0x080E0018;
-const uint32_t FLASH_ADDRESS_END = 0x080E001C;
-uint32_t set_kp,set_ki,set_kd;
+const uint32_t FLASH_ADDRESS_SP = 0x080E001C;
+uint32_t set_kp,set_ki,set_kd,set_sp;
 bool pid_is_set = false;
 
 const uint32_t PID_PWM_MIN = 1;
@@ -364,11 +363,10 @@ void WriteParameters2FLASH()
    FLASH_Unlock();
    FLASH_ClearFlag( FLASH_FLAG_EOP |  FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
    FLASH_EraseSector(FLASH_Sector_11,VoltageRange_3);
-   FLASH_ProgramWord(FLASH_ADDRESS_START,0x12345678);
    FLASH_ProgramWord(FLASH_ADDRESS_P,set_kp);
    FLASH_ProgramWord(FLASH_ADDRESS_I,set_ki);
    FLASH_ProgramWord(FLASH_ADDRESS_D,set_kd);
-   FLASH_ProgramWord(FLASH_ADDRESS_END,0x87654321);
+   FLASH_ProgramWord(FLASH_ADDRESS_SP,set_sp);
 
    FLASH_ProgramWord(FLASH_ADDRESS_AS,set_as);
    FLASH_ProgramWord(FLASH_ADDRESS_AD,set_ad);
@@ -379,18 +377,20 @@ void WriteParameters2FLASH()
 void SetPIDParameter()
 {
    uint8_t c;
-   char pid_str[14];
+   char pid_str[18];
    int i = 0;
    while(USB_VCP_Getc(&c) == USB_VCP_DATA_OK){
       if(c == 'l' || c == 'L'){
-	 char p_str[5]="", i_str[5]="", d_str[5]="";
+	 char p_str[5]="", i_str[5]="", d_str[5]="", sp_str[5]="";
 	 p_str[0] = pid_str[0];p_str[1] = pid_str[1];p_str[2] = pid_str[2];p_str[3] = pid_str[3];
 	 i_str[0] = pid_str[4];i_str[1] = pid_str[5];i_str[2] = pid_str[6];i_str[3] = pid_str[7];
 	 d_str[0] = pid_str[8];d_str[1] = pid_str[9];d_str[2] = pid_str[10];d_str[3] = pid_str[11];
+	 sp_str[0] = pid_str[12];sp_str[1] = pid_str[13];sp_str[2] = pid_str[14];sp_str[3] = pid_str[15];
 
 	 set_kp = atoi(p_str);
 	 set_ki = atoi(i_str);
 	 set_kd = atoi(d_str);
+	 set_sp = atoi(sp_str);
 	 set_as = *(uint32_t*)FLASH_ADDRESS_AS;
 	 set_ad = *(uint32_t*)FLASH_ADDRESS_AD;
 
@@ -420,7 +420,8 @@ void SetBPAlgoAsAd()
 	 set_ad = atoi(ad_str);
 	 set_kp = *(uint32_t*)FLASH_ADDRESS_P;
 	 set_ki = *(uint32_t*)FLASH_ADDRESS_I;
-	 set_kd = *(uint32_t*)FLASH_ADDRESS_D; 
+	 set_kd = *(uint32_t*)FLASH_ADDRESS_D;
+	 set_sp = *(uint32_t*)FLASH_ADDRESS_SP;
 
 	 as_ad_is_set = true;
 
@@ -535,6 +536,7 @@ void ResetMeasurementParameter()
    Kp = ((float)(*(uint32_t*)FLASH_ADDRESS_P)) / 100.0f;
    Ki = ((float)(*(uint32_t*)FLASH_ADDRESS_I)) / 100.0f;
    Kd = ((float)(*(uint32_t*)FLASH_ADDRESS_D)) / 100.0f;
+   setpoint = *(uint32_t*)FLASH_ADDRESS_SP;
 
    as_am_value = ((float)(*(uint32_t*)FLASH_ADDRESS_AS)) / 100.0f;
    ad_am_value = ((float)(*(uint32_t*)FLASH_ADDRESS_AD)) / 100.0f;   
@@ -543,7 +545,7 @@ void ResetMeasurementParameter()
    init_baseline_count = 0;	
    dc = 0;
 
-   setpoint = 3; 
+   //setpoint = 3; 
    pressure = 0;
 
    MAP = 0;
@@ -933,8 +935,11 @@ int main(void)
 		  sprintf(set_str,"P:%d I:%d D:%d",set_kp,set_ki,set_kd);
 		  SSD1306_GotoXY(0, 5);
 		  SSD1306_Puts(set_str, &Font_7x10, 0xFF);
-		  sprintf(set_str,"As:%d Ad:%d",set_as,set_ad);
+		  sprintf(set_str,"Set Point:%d mmHg/s",set_sp);
 		  SSD1306_GotoXY(0, 15);
+		  SSD1306_Puts(set_str, &Font_7x10, 0xFF);		  
+		  sprintf(set_str,"As:%d Ad:%d",set_as,set_ad);
+		  SSD1306_GotoXY(0, 25);
 		  SSD1306_Puts(set_str, &Font_7x10, 0xFF);		  
 	       }
 	       else{
